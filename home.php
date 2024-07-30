@@ -9,8 +9,8 @@
 
 <!-- Navigation Bar -->
 <ul class="nav-bar">
-  <li> <a href="home.php">HOME</a> </li>
-  <li class="active-page"> <a href="roller.php">ROLLER</a> </li>
+  <li class="active-page"> <a href="home.php">HOME</a> </li>
+  <li> <a href="roller.php">ROLLER</a> </li>
   <li> <a href="statistics.php">STATISTICS</a> </li>
   <li> <a href="help.php">HELP</a> </li>
 </ul>
