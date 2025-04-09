@@ -7,13 +7,40 @@
 </head>
 <body>
 
+<?php $loggedIn = false; $userName = "user.name"; ?> <!-- This is just to test! Will check for a JWT. -->
+
 <!-- Navigation Bar -->
 <ul class="nav-bar">
   <li class="active-page"> <a href="home.php">HOME</a> </li>
   <li> <a href="roller.php">ROLLER</a> </li>
   <li> <a href="statistics.php">STATISTICS</a> </li>
   <li> <a href="help.php">HELP</a> </li>
+  <li class="nav-right" id="acct-dropdn-btn">
+    <span onClick="hideShowDropdown('acct-dropdn-btn', 'acct-dropdn')"><?php
+      if ($loggedIn) {
+        echo userName;
+      } else {
+        echo "Login";
+      }?>
+    </span>
+  </li>
 </ul>
+
+<div class="dropdn acct-dropdn" id="acct-dropdn">
+  <?php
+  if ($loggedIn) {
+    echo "user options here";
+  } else {
+    echo "<form method='POST' action='../scripts/login.php'>
+      <span>Username:</span>
+      <input type='text' name='username' autocomplete='off'>
+      <span>Password:</span>
+      <input type='text' name='password' autocomplete='off'><br>
+      <button type='submit' value='Login'>Login</button>
+    </form>";
+  }
+  ?>
+</div>
 
 <div class="content-wrapper"> <!-- container for main content -->
 <div class="content"> <!-- visible content div -->
@@ -48,6 +75,8 @@
     content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
   </li>
 </ul>
+
+<script src="../scripts/dropdowns.js"></script>
 
 </body>
 </html>
