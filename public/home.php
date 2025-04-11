@@ -7,18 +7,20 @@
 </head>
 <body>
 
-<?php $loggedIn = false; $userName = "user.name"; ?> <!-- This is just to test! Will check for a JWT. -->
+<?php $loggedIn = false; $userName = "user.name"; ?> <!-- This is just to test! Will check for session token. -->
 
 <!-- Navigation Bar -->
 <ul class="nav-bar">
+  <!-- Pages -->
   <li class="active-page"> <a href="home.php">HOME</a> </li>
   <li> <a href="roller.php">ROLLER</a> </li>
   <li> <a href="statistics.php">STATISTICS</a> </li>
   <li> <a href="help.php">HELP</a> </li>
-  <li class="nav-right" id="acct-dropdn-btn">
-    <span onClick="hideShowDropdown('acct-dropdn-btn', 'acct-dropdn')"><?php
+  <!-- Dropdown for account login, logout, create -->
+  <li class="nav-right" id="acct-dropdn-btn" onClick="hideShowDropdown('acct-dropdn-btn', 'acct-dropdn')">
+    <span id="uname-nav"><?php
       if ($loggedIn) {
-        echo userName;
+        echo $userName;
       } else {
         echo "Login";
       }?>
@@ -29,15 +31,18 @@
 <div class="dropdn acct-dropdn" id="acct-dropdn">
   <?php
   if ($loggedIn) {
-    echo "user options here";
+    echo "
+      <button id='logout-btn'>Logout</button>
+      <button id='delete-btn'>Delete Account</button>";
   } else {
-    echo "<form method='POST' action='../scripts/login.php'>
+    echo "
       <span>Username:</span>
-      <input type='text' name='username' autocomplete='off'>
+      <input type='text' id='uname-input' autocomplete='off'>
       <span>Password:</span>
-      <input type='text' name='password' autocomplete='off'><br>
-      <button type='submit' value='Login'>Login</button>
-    </form>";
+      <input type='text' id='pwd-input' autocomplete='off'><br>
+      <button id='login-btn'>Login</button>
+      <button id='register-btn'>Register</button>
+      <span id='login-status-msg'></span>";
   }
   ?>
 </div>
@@ -77,6 +82,7 @@
 </ul>
 
 <script src="../scripts/dropdowns.js"></script>
+<script src="../scripts/account.js"></script>
 
 </body>
 </html>

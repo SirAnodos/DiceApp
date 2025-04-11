@@ -74,11 +74,11 @@ body {
   padding: 30px 10px 10px;
 }
 
-.dropdn form input {
+.dropdn input {
   width: calc(100% - 8px);
 }
 
-.dropdn form button {
+.dropdn button {
   margin-top: 5px;
   float: right;
 }
