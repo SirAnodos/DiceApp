@@ -7,7 +7,7 @@
 </head>
 <body>
 
-<?php $loggedIn = false; $userName = "user.name"; ?> <!-- This is just to test! Will check for session token. -->
+<?php $loggedIn = true; $userName = "user.name"; ?> <!-- This is just to test! Will check for session token. -->
 
 <!-- Navigation Bar -->
 <ul class="nav-bar">
