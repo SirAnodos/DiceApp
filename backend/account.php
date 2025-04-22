@@ -1,8 +1,10 @@
 <?php
+session_start();
 $uname = $_POST['uname'] ?? null;
 $pwd = $_POST['pwd'] ?? null;
 $action = $_POST['action'];
 include('db-connect.php');
+echo isset($_SESSION) ? 'true' : 'false';
 
 if ($action == 'login') {
     $qry = $connection->prepare("SELECT id, password FROM users WHERE username = ?");
@@ -15,7 +17,6 @@ if ($action == 'login') {
         $qry->fetch();
 
         if (password_verify($pwd, $pwdHash)) {
-            session_start();
             $_SESSION['id'] = $id;
             $_SESSION['uname'] = $uname;
             http_response_code(200);
@@ -31,6 +32,9 @@ if ($action == 'login') {
 } else
 
 if ($action == 'logout') {
+    setcookie(session_name(), '', time() - 42000);
+    session_unset();
+    session_destroy();
     http_response_code(200);
     echo "Logged out.";
 } else
@@ -51,11 +55,10 @@ if ($action == 'register') {
             $qry->bind_param('ss', $uname, $hashedPwd);
             $qry->execute();
             $id = $connection->insert_id;
-            http_response_code(200);
-            echo "Registration successful.";
-            session_start();
             $_SESSION['id'] = $id;
             $_SESSION['uname'] = $uname;
+            http_response_code(200);
+            echo "Registration successful.";
         } else {
             http_response_code(409);
             echo "Username unavailable.";
