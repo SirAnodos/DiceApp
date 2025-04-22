@@ -12,15 +12,14 @@ document.getElementById('acct-dropdn').addEventListener('click', function(event)
         XHR.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
         XHR.onload = function() {
-            if (XHR.status == 401) {
-                document.getElementById('login-status-msg').innerHTML = "Incorrect username or password!";
-            } else if (XHR.status == 200) {
+            if (XHR.status == 200) {
                 if (target === 'login-btn' || target === 'register-btn') {
                     document.getElementById('uname-nav').innerHTML = uname;
                     document.getElementById('acct-dropdn').innerHTML = "" +
                     "<button id='logout-btn'>Logout</button>" +
-                    "<button id='delete-btn'>DeleteAccount</button>";
-                } else if (target === 'logout-btn') {
+                    "<button id='delete-btn'>DeleteAccount</button><br>" +
+                    "<span id='status-msg'></span>";
+                } else if (target === 'logout-btn' || target === 'delete-confirm') {
                     document.getElementById('uname-nav').innerHTML = "login";
                     document.getElementById('acct-dropdn').innerHTML = "" +
                     "<span>Username:</span>" +
@@ -28,18 +27,21 @@ document.getElementById('acct-dropdn').addEventListener('click', function(event)
                     "<span>Password:</span>" +
                     "<input type='text' id='pwd-input' autocomplete='off'><br>" +
                     "<button id='login-btn'>Login</button>" +
-                    "<button id='register-btn'>Register</button>" +
-                    "<span id='login-status-msg'></span>";
+                    "<button id='register-btn'>Register</button><br>" +
+                    "<span id='status-msg'></span>";
                 }
             }
+            document.getElementById('status-msg').innerHTML = XHR.responseText;
         }
 
         if (target === 'login-btn') {
-            data = 'action=login&uname=${uname}&pwd=${pwd}';
+            data = `action=login&uname=${uname}&pwd=${pwd}`;
         } else if (target === 'register-btn') {
-            data = 'action=register&uname=${uname}&pwd=${pwd}';
+            data = `action=register&uname=${uname}&pwd=${pwd}`;
         } else if (target === 'logout-btn') {
-            data = 'action=logout';
+            data = `action=logout`;
+        } else if (target === 'delete-confirm') {
+            data = `action=delete`;
         }
         XHR.send(data);
     }

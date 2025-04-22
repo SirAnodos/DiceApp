@@ -1,6 +1,7 @@
 // JS for validating and clearing input fields
+// The inputs are also validated on the server side.
 
-const MAXDICE = 10; // do not allow the user to select more than this number of dice
+const MAXDICE = 10; // do not allow the user to select more than this number of each die
 
 // ensure that number of dice is not higher than MAXDICE
 function validateSelection(counterElmt, numDice) {

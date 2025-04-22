@@ -9,5 +9,6 @@ function hideShowDropdown(button, dropdown) {
     } else {
         dropdownElmt.style.display = "none";
         buttonElmt.classList.remove("active-page");
+        document.getElementById("status-msg").innerHTML = "";
     }
 }

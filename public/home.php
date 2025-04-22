@@ -7,7 +7,7 @@
 </head>
 <body>
 
-<?php $loggedIn = true; $userName = "user.name"; ?> <!-- This is just to test! Will check for session token. -->
+<?php $loggedIn = false; $userName = "user.name"; ?> <!-- This is just to test! Will check for session token. -->
 
 <!-- Navigation Bar -->
 <ul class="nav-bar">
@@ -33,7 +33,8 @@
   if ($loggedIn) {
     echo "
       <button id='logout-btn'>Logout</button>
-      <button id='delete-btn'>Delete Account</button>";
+      <button id='delete-btn'>Delete Account</button><br>
+      <span id='status-msg'></span>";
   } else {
     echo "
       <span>Username:</span>
@@ -41,8 +42,8 @@
       <span>Password:</span>
       <input type='text' id='pwd-input' autocomplete='off'><br>
       <button id='login-btn'>Login</button>
-      <button id='register-btn'>Register</button>
-      <span id='login-status-msg'></span>";
+      <button id='register-btn'>Register</button><br>
+      <span id='status-msg'></span>";
   }
   ?>
 </div>

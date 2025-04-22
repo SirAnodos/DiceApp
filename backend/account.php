@@ -18,36 +18,48 @@ if ($action == 'login') {
             session_start();
             $_SESSION['id'] = $id;
             $_SESSION['uname'] = $uname;
-            header('HTTP/1.1 200');
+            http_response_code(200);
+            echo "Login successful.";
         } else {
-            header('HTTP/1.1 401');
+            http_response_code(401);
+            echo "Password incorrect.";
         }
     } else {
-        header('HTTP/1.1 401');
+        http_response_code(401);
+        echo "Invalid username.";
     }
 } else
 
 if ($action == 'logout') {
-    header('HTTP/1.1 200');
+    http_response_code(200);
+    echo "Logged out.";
 } else
 
 if ($action == 'register') {
-    $qry = $connection->prepare("SELECT id FROM users WHERE username = ?");
-    $qry->bind_param('s', $uname);
-    $qry->execute();
-    $qry->store_result();
-
-    if ($qry->num_rows === 0) {
-        $qry = $connection->prepare("INSERT INTO `users` (`id`, `username`, `password`) VALUES (NULL, '?', '?')");
-        $qry->bind_param('ss', $uname, password_hash($pwd));
-        $qry->execute();
-        $id = $connection->insert_id;
-        header('HTTP/1.1 200');
-        session_start();
-        $_SESSION['id'] = $id;
-        $_SESSION['uname'] = $uname;
+    if ($pwd == '' || $pwd == null) {
+        http_response_code(422);
+        echo "Password required.";
     } else {
-        header('HTTP/1.1 409');
+        $hashedPwd = password_hash($pwd, PASSWORD_DEFAULT);
+        $qry = $connection->prepare("SELECT id FROM users WHERE username = ?");
+        $qry->bind_param('s', $uname);
+        $qry->execute();
+        $qry->store_result();
+
+        if ($qry->num_rows === 0) {
+            $qry = $connection->prepare("INSERT INTO `users` (`id`, `username`, `password`) VALUES (NULL, ?, ?)");
+            $qry->bind_param('ss', $uname, $hashedPwd);
+            $qry->execute();
+            $id = $connection->insert_id;
+            http_response_code(200);
+            echo "Registration successful.";
+            session_start();
+            $_SESSION['id'] = $id;
+            $_SESSION['uname'] = $uname;
+        } else {
+            http_response_code(409);
+            echo "Username unavailable.";
+        }
     }
 }
 ?>
