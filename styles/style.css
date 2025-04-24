@@ -83,6 +83,12 @@ body {
   float: right;
 }
 
+.status-msg {
+  font-size: smaller;
+  margin-top: 2px;
+  float: right;
+}
+
 .content-wrapper {
   z-index: 0;
   height: 420px;

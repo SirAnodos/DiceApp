@@ -7,46 +7,11 @@
 </head>
 <body>
 
-<?php $loggedIn = false; $userName = "user.name"; ?> <!-- This is just to test! Will check for session token. -->
-
-<!-- Navigation Bar -->
-<ul class="nav-bar">
-  <!-- Pages -->
-  <li class="active-page"> <a href="home.php">HOME</a> </li>
-  <li> <a href="roller.php">ROLLER</a> </li>
-  <li> <a href="statistics.php">STATISTICS</a> </li>
-  <li> <a href="help.php">HELP</a> </li>
-  <!-- Dropdown for account login, logout, create -->
-  <li class="nav-right" id="acct-dropdn-btn" onClick="hideShowDropdown('acct-dropdn-btn', 'acct-dropdn')">
-    <span id="uname-nav"><?php
-      if ($loggedIn) {
-        echo $userName;
-      } else {
-        echo "Login";
-      }?>
-    </span>
-  </li>
-</ul>
-
-<div class="dropdn acct-dropdn" id="acct-dropdn">
-  <?php
-  if ($loggedIn) {
-    echo "
-      <button id='logout-btn'>Logout</button>
-      <button id='delete-btn'>Delete Account</button><br>
-      <span id='status-msg'></span>";
-  } else {
-    echo "
-      <span>Username:</span>
-      <input type='text' id='uname-input' autocomplete='off'>
-      <span>Password:</span>
-      <input type='text' id='pwd-input' autocomplete='off'><br>
-      <button id='login-btn'>Login</button>
-      <button id='register-btn'>Register</button><br>
-      <span id='status-msg'></span>";
-  }
-  ?>
-</div>
+<!-- include navbar, specifying the active page -->
+<?php
+$activePage = 'home';
+include('./include/navbar.inc.php');
+?>
 
 <div class="content-wrapper"> <!-- container for main content -->
 <div class="content"> <!-- visible content div -->

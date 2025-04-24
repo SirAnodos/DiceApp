@@ -53,13 +53,11 @@ foreach ($events as $event => $cardE) {
 }
 ?>
 
-<!-- Navigation Bar -->
-<ul class="nav-bar">
-  <li> <a href="home.php">HOME</a> </li>
-  <li> <a href="roller.php">ROLLER</a> </li>
-  <li class="active-page"> <a href="statistics.php">STATISTICS</a> </li>
-  <li> <a href="help.php">HELP</a> </li>
-</ul>
+<!-- include navbar, specifying the active page -->
+<?php
+$activePage = 'statistics';
+include('./include/navbar.inc.php');
+?>
 
 <div class="content-wrapper"> <!-- container for main content -->
 <div class="content"> <!-- visible content div -->
@@ -83,9 +81,9 @@ foreach ($events as $event => $cardE) {
       echo "<br>";
     }
   }
-  echo "<!--";
+
   ?>
-  --><span>to hit:</span><input id="to-hit" type="number" name="to-hit"
+  <span>to hit:</span><input id="to-hit" type="number" name="to-hit"
   value="<?php echo "$toHit";?>" min=0 autocomplete="off">
   <br>
   <button type="submit" onclick="resetForm(this.parentElement)">Reset</button>
@@ -149,7 +147,10 @@ function echoPercent($percent) {
   echo round($percent * 100, 2) . "%";
 }
 ?>
+
 <script src="../scripts/inputs.js"></script> <!-- include input processing functions -->
+<script src="../scripts/dropdowns.js"></script>
+<script src="../scripts/account.js"></script>
 
 </body>
 </html>

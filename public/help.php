@@ -7,13 +7,11 @@
 </head>
 <body>
 
-<!-- Navigation Bar -->
-<ul class="nav-bar">
-  <li> <a href="home.php">HOME</a> </li>
-  <li> <a href="roller.php">ROLLER</a> </li>
-  <li> <a href="statistics.php">STATISTICS</a> </li>
-  <li class="active-page"> <a href="help.php">HELP</a> </li>
-</ul>
+<!-- include navbar, specifying the active page -->
+<?php
+$activePage = 'help';
+include('./include/navbar.inc.php');
+?>
 
 <div class="content-wrapper"> <!-- container for main content -->
 <div class="content"> <!-- visible content div -->
@@ -46,6 +44,9 @@
     content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
   </li>
 </ul>
+
+<script src="../scripts/dropdowns.js"></script>
+<script src="../scripts/account.js"></script>
 
 </body>
 </html>

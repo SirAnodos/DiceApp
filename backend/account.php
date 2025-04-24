@@ -2,9 +2,12 @@
 session_start();
 $uname = $_POST['uname'] ?? null;
 $pwd = $_POST['pwd'] ?? null;
-$action = $_POST['action'];
+$action = $_POST['action'] ?? null;
 include('db-connect.php');
-echo isset($_SESSION) ? 'true' : 'false';
+
+if (is_null($action)) {
+    http_response_code(200);
+} else
 
 if ($action == 'login') {
     $qry = $connection->prepare("SELECT id, password FROM users WHERE username = ?");
@@ -32,15 +35,16 @@ if ($action == 'login') {
 } else
 
 if ($action == 'logout') {
-    setcookie(session_name(), '', time() - 42000);
     session_unset();
-    session_destroy();
     http_response_code(200);
     echo "Logged out.";
 } else
 
 if ($action == 'register') {
-    if ($pwd == '' || $pwd == null) {
+    if ($uname == '' || $uname == null) {
+        http_response_code(422);
+        echo "Username required.";
+    } else if ($pwd == '' || $pwd == null) {
         http_response_code(422);
         echo "Password required.";
     } else {
@@ -64,5 +68,14 @@ if ($action == 'register') {
             echo "Username unavailable.";
         }
     }
+} else
+
+if ($action == 'delete') {
+    $qry = $connection->prepare("DELETE FROM users WHERE id = ?");
+    $qry->bind_param('s', $_SESSION['id']);
+    $qry->execute();
+    session_unset();
+    http_response_code(200);
+    echo "Account deleted.";
 }
 ?>

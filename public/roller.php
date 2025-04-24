@@ -37,13 +37,11 @@ if (array_sum($dice) > 0) {
 }
 ?>
 
-<!-- Navigation Bar -->
-<ul class="nav-bar">
-  <li> <a href="home.php">HOME</a> </li>
-  <li class="active-page"> <a href="roller.php">ROLLER</a> </li>
-  <li> <a href="statistics.php">STATISTICS</a> </li>
-  <li> <a href="help.php">HELP</a> </li>
-</ul>
+<!-- include navbar, specifying the active page -->
+<?php
+$activePage = 'roller';
+include('./include/navbar.inc.php');
+?>
 
 <div class="content-wrapper"> <!-- container for main content -->
 <div class="content"> <!-- visible content div -->
@@ -111,6 +109,8 @@ if (array_sum($dice) > 0) {
 <script src="../scripts/inputs.js"></script> <!-- include input processing functions -->
 <script src="../scripts/dice_roller.js"></script> <!-- include graphics box functions -->
 <script> showDiceOnLoad(); </script> <!-- on load, show the selected dice -->
+<script src="../scripts/dropdowns.js"></script>
+<script src="../scripts/account.js"></script>
 
 </body>
 </html>
