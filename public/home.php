@@ -34,18 +34,7 @@ include('./include/navbar.inc.php');
 </div>
 
 <!-- footer -->
-<ul class="footer">
-  <li>
-    Gabriel Walker
-    <?php echo " " . date("Y"); ?>
-  </li>
-  <li>Background Image by
-    <a href="https://unsplash.com/@dan_horgan?utm_content=creditCopyText&
-    utm_medium=referral&utm_source=unsplash">Dan Horgan</a> on
-    <a href="https://unsplash.com/photos/background-pattern-gMU6nVaU8Tk?utm_
-    content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
-  </li>
-</ul>
+<?php include("./include/footer.inc.php"); ?>
 
 <script src="../scripts/dropdowns.js"></script>
 <script src="../scripts/account.js"></script>

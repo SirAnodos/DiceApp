@@ -92,18 +92,7 @@ include('./include/navbar.inc.php');
 </div> <!-- end content wrapper -->
 
 <!-- footer -->
-<ul class="footer">
-  <li>
-    Gabriel Walker
-    <?php echo " " . date("Y"); ?>
-  </li>
-  <li>Background Image by
-    <a href="https://unsplash.com/@dan_horgan?utm_content=creditCopyText&
-    utm_medium=referral&utm_source=unsplash">Dan Horgan</a> on
-    <a href="https://unsplash.com/photos/background-pattern-gMU6nVaU8Tk?utm_
-    content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
-  </li>
-</ul>
+<?php include("./include/footer.inc.php"); ?>
 
 <!-- functions and scripts -->
 <script src="../scripts/inputs.js"></script> <!-- include input processing functions -->

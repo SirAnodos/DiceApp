@@ -6,6 +6,7 @@
   --background-color-transparent: rgba(200, 200, 200, 0.9);
   --left-column-width: 140px;
   --footer-height: 40px;
+  --footer-items: 2;
 }
 
 body {
@@ -57,6 +58,7 @@ body {
 
 .dropdn {
   display: none;
+  z-index: 1;
   overflow: auto;
   border: 3px ridge var(--theme-color);
   border-top: 0px;
@@ -184,27 +186,6 @@ body {
   line-height: 50px;
 }
 
-@media screen and (max-width: 600px) {
-  .left-column, .display-panel {
-    width: 96%;
-    margin: 2%;
-  }
-  .input-panel {
-    text-align: left;
-    width: calc(100% - var(--left-column-width) + 20px);
-  }
-  .input-panel input[type="submit"] {
-    margin-left: 30px;
-  }
-  .results-panel {
-    margin: 0;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    text-align: right;
-  }
-}
-
 .footer {
   z-index: 1;
   height: var(--footer-height);
@@ -230,4 +211,44 @@ body {
 
 .footer li a {
   color: white;
+}
+
+@media screen and (max-width: 600px) {
+  .nav-bar * {
+    font-size: small;
+  }
+
+  .content-wrapper {
+    min-height: calc(100vh - (var(--footer-height) * var(--footer-items)) - 70px);
+  }
+
+  .left-column, .display-panel {
+    width: 96%;
+    margin: 2%;
+  }
+  .input-panel {
+    text-align: left;
+    width: calc(100% - var(--left-column-width) + 20px);
+  }
+  .input-panel input[type="submit"] {
+    margin-left: 30px;
+  }
+  .results-panel {
+    margin: 0;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    text-align: right;
+  }
+
+  .footer {
+    height: calc(var(--footer-height) * var(--footer-items));
+  }
+
+  .footer li {
+    font-size: small;
+    width: 98%;
+    margin: 1em 2% 0;
+    border: none;
+  }
 }
