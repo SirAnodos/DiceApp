@@ -1,3 +1,5 @@
+<!-- Sample Credentials -->
+
 <?php
 
 $config;

@@ -25,22 +25,7 @@ include('./include/navbar.inc.php');
 <div class="left-column">
 
 <!-- Dice Selection Form -->
-<form class="input-panel" method="GET" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-  <?php
-  foreach (DICEMAP as $sides => $idx) {
-    echo "<span>d" . $sides . "s:</span>";
-    echo "<input id='d" . $sides . "-input' type='number' name='d$sides'
-          value='$dice[$sides]' min=0 max=MAXDICE
-          onchange='updateDice($sides)' autocomplete='off'>";
-    if ($idx % 2 != 0) {
-      echo "<br>";
-    }
-  }
-  ?>
-  <br>
-  <button type="submit" onclick="resetForm(this.parentElement)">Reset</button>
-  <button type="submit">Roll</button><br>
-</form>
+<?php include("./include/dice-selection.inc.php");?>
 
 <!-- Results Panel -->
 <div class="results-panel">
