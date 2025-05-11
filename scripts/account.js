@@ -21,6 +21,7 @@ document.getElementById('acct-dropdn').addEventListener('click', function(event)
                     "<button id='logout-btn'>Logout</button>" +
                     "<button id='delete-btn'>Delete Account</button><br>" +
                     "<span id='status-msg' class='status-msg'></span>";
+                    document.getElementById('saved-select-div').hidden = false;
                 } else if (target == 'logout-btn' || target == 'delete-confirm-btn') {
                     document.getElementById('uname-nav').innerHTML = "Login";
                     document.getElementById('acct-dropdn').innerHTML = "" +
@@ -31,6 +32,7 @@ document.getElementById('acct-dropdn').addEventListener('click', function(event)
                     "<button id='login-btn'>Login</button>" +
                     "<button id='register-btn'>Register</button><br>" +
                     "<span id='status-msg' class='status-msg'></span>";
+                    document.getElementById('saved-select-div').hidden = true;
                 } else if (target == 'delete-btn') {
                     document.getElementById('acct-dropdn').innerHTML = "" +
                     "<span class='status-msg'>Confirm account deletion?</span><br>" +

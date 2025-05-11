@@ -14,6 +14,16 @@ if ($activePage=='statistics') {
 }
 
 echo "<form class='input-panel' method='GET' action='".htmlspecialchars($_SERVER["PHP_SELF"])."'>";
+  echo "<div id='saved-select-div'".(isset($_SESSION['uname']) ? "" : "hidden").">";
+    // select dice profile for saved characters or games
+    echo "
+    <span class='saved'>Saved Profile:</span><br>
+    <select id='profile-select' class='saved' onchange='selectProfile(this.value)'></select><br>";
+    // select saved dice roll from profile
+    echo "
+    <span class='saved'>Saved Roll:</span><br>
+    <select id='saved-roll-select' class='saved' onchange='selectRoll(this.value)'></select><br>";
+  echo "</div>";
   // echo one input for each kind of die
   foreach (DICEMAP as $sides => $idx) {
     echo "<span>d" . $sides . "s:</span>";
