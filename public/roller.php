@@ -31,7 +31,7 @@ include('./include/navbar.inc.php');
 <div class="results-panel">
   <span>Total: <?php echo "$totalRoll";?></span>
 </div>
-</div>
+</div> <!-- end left column -->
 
 <!-- Graphical Dice Box -->
 <div class="display-panel">

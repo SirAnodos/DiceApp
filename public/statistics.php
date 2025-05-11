@@ -56,6 +56,7 @@ include('./include/navbar.inc.php');
 <?php include("./include/footer.inc.php"); ?>
 
 <!-- functions and scripts -->
+<!-- This is messy. Put this code somewhere else -->
 <?php // accept float value and echo a percent rounded to two decimal places
 function echoPercent($percent) {
   echo round($percent * 100, 2) . "%";

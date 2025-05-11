@@ -1,5 +1,5 @@
+<!-- footer included on every page -->
 <?php
-
 echo "
 <ul class='footer'>
   <li>
@@ -14,5 +14,4 @@ echo "
     content=creditCopyText&utm_medium=referral&utm_source=unsplash'>Unsplash</a>
   </li>
 </ul>";
-
 ?>

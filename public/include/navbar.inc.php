@@ -12,6 +12,7 @@ echo "
   <!-- Dropdown for account login, logout, create -->
   <li class='nav-right' id='acct-dropdn-btn' onClick='hideShowDropdown(\"acct-dropdn-btn\", \"acct-dropdn\")'>
     <span id='uname-nav'>";
+      // if logged in, display username
       if (isset($_SESSION['uname'])) {
         echo $_SESSION['uname'];
       } else {
@@ -22,13 +23,16 @@ echo "
   </li>
 </ul>";
 
+// account dropdown menu for login/logout
 echo "
 <div class='dropdn acct-dropdn' id='acct-dropdn'>";
+  // menu options if logged in
   if (isset($_SESSION['uname'])) {
     echo "
       <button id='logout-btn'>Logout</button>
       <button id='delete-btn'>Delete Account</button><br>
       <span id='status-msg' class='status-msg'></span>";
+  // menu options if logged out
   } else {
     echo "
       <span>Username:</span>

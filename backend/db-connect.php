@@ -1,3 +1,5 @@
+<!-- connect to database -->
+
 <?php
 
 include('server-config.php');

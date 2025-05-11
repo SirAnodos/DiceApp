@@ -1,3 +1,5 @@
+<!-- dice statistics functionality -->
+
 <?php
 // define variables
 const DICEMAP = [4 => 0, 6 => 1, 8 => 2, 10 => 3, 12 => 4, 20 => 5, 100 => 6,];

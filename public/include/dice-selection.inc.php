@@ -14,6 +14,7 @@ if ($activePage=='statistics') {
 }
 
 echo "<form class='input-panel' method='GET' action='".htmlspecialchars($_SERVER["PHP_SELF"])."'>";
+  // saved dice profiles and rolls if user is logged in
   echo "<div id='saved-select-div'".(isset($_SESSION['uname']) ? "" : "hidden").">";
     // select dice profile for saved characters or games
     echo "
