@@ -10,7 +10,7 @@
 // 
 // echo saved dice form:
 // <div>
-//   <select> profile selector
+//   <select> profile selector, onChange reference change-profile.js
 //     <option> None </option>
 //     for $profile in $profiles, echo <option> element
 //   </select>
@@ -18,6 +18,7 @@
 //     <option> None </option>
 //     for $profile in $profiles,
 //       for $roll in $profile->getRolls(), echo <option> element with hidden attribute
+//         <option> should have name="$profile->getName()"
 //   </select>
 // 
 // figure out inputs for saving. Need:
@@ -26,4 +27,6 @@
 // new roll - dropdown appears with name and save button
 // overwrite roll - dropdown appears with confirm and cancel
 // delete roll - dropdown appears with confirm and cancel
+// 
+// at some point in this file, save rolls to a cookie.
 ?>

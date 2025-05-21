@@ -54,7 +54,7 @@ include('./include/navbar.inc.php');
 
 <!-- functions and scripts -->
 <script src="../scripts/inputs.js"></script> <!-- include input processing functions -->
-<script src="../scripts/dice_roller.js"></script> <!-- include graphics box functions -->
+<script src="../scripts/dice-roller.js"></script> <!-- include graphics box functions -->
 <script> showDiceOnLoad(); </script> <!-- on load, show the selected dice -->
 <script src="../scripts/dropdowns.js"></script>
 <script src="../scripts/account.js"></script>
