@@ -1,10 +1,27 @@
 <?php
+include("db-connect.php");
+include("dice-profile.inc.php");
 
-// $profiles = [];
+session_start();
+$profiles = [];
 // DB query: get profiles where uid == $_SESSION[id]
+$qry = $connection->prepare("SELECT * FROM profiles WHERE uid = ?");
+$qry->bind_param('s', $_SESSION['uname']);
+$qry->execute();
+
 // for each result row (each profile)
-//   add to $profiles new profile object
-//   DB query: get rolls where profile == id of this profile
+while ($pRow = $qry->fetch_row()) {
+    // add to $profiles new profile object
+    array_push($profiles, new DiceProfile($pRow[0], $pRow[1]))
+    // DB query: get rolls where profile == id of this profile
+    $qry = $connection->prepare("SELECT * FROM profiles WHERE uid = ?");
+    $qry->bind_param('s', $_SESSION['uname']);
+    $qry->execute();
+    // for each result row (each saved roll)
+    while ($rRow = $qry->fetch_row()) {
+        
+    }
+}
 //   for each result row (each saved roll)
 //     profile->addRoll(this roll)
 // 
