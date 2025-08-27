@@ -1,8 +1,8 @@
 <!-- connect to database -->
 
 <?php
-
-include('server-config.php');
-$connection = new mysqli($config['db_host'], $config['db_user'], $config['db_pwd'], $config['db_name']);
-
+function dbConnect() {
+    include('server-config.php');
+    return new mysqli($config['db_host'], $config['db_user'], $config['db_pwd'], $config['db_name']);
+}
 ?>
