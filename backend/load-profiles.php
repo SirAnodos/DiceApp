@@ -1,30 +1,30 @@
 <?php
-include("db-connect.php");
 include("dice-profile.inc.php");
+include("db-connect.php");
+$connection = dbConnect();
 
 session_start();
 $profiles = [];
 // DB query: get profiles where uid == $_SESSION[id]
-$qry = $connection->prepare("SELECT * FROM profiles WHERE uid = ?");
-$qry->bind_param('s', $_SESSION['uname']);
-$qry->execute();
+$pQry = $connection->prepare("SELECT * FROM profiles WHERE uid = ?");
+$pQry->bind_param('s', $_SESSION['uname']);
+$pQry->execute();
 
+// load roll data and create DiceProfile objects
 // for each result row (each profile)
-while ($pRow = $qry->fetch_row()) {
-    // add to $profiles new profile object
-    array_push($profiles, new DiceProfile($pRow[0], $pRow[1]))
+while ($pRow = $pQry->fetch_row()) {
     // DB query: get rolls where profile == id of this profile
-    $qry = $connection->prepare("SELECT * FROM profiles WHERE uid = ?");
-    $qry->bind_param('s', $_SESSION['uname']);
-    $qry->execute();
-    // for each result row (each saved roll)
-    while ($rRow = $qry->fetch_row()) {
-        
+    $rQry = $connection->prepare("SELECT * FROM rolls WHERE profile_id = ?");
+    $rQry->bind_param('s', $pRow[0]);
+    $rQry->execute();
+    // save each result row (each saved roll)
+    $rolls = [];
+    while ($rRow = $rQry->fetch_row()) {
+        array_push($rolls, new SavedRoll($rRow[1], array_slice($rRow, 2, 7)))
     }
+    // add to $profiles new profile object, including the loaded rolls
+    array_push($profiles, new DiceProfile($pRow[0], $pRow[1], ...$rolls))
 }
-//   for each result row (each saved roll)
-//     profile->addRoll(this roll)
-// 
 // echo saved dice form:
 // <div>
 //   <select> profile selector, onChange reference change-profile.js

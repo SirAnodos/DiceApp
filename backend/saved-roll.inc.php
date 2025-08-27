@@ -4,10 +4,16 @@
 class SavedRoll {
     // properties
     private $name;
-    private $d4s;
-    private $d6s;
-    private $d8s;
-    private $d10s;
-    private $d12s;
-    private $d20s;
+    private $d4;
+    private $d6;
+    private $d8;
+    private $d10;
+    private $d12;
+    private $d20;
+
+    public function __construct(string $name, string $dice[]) {
+        $this->name = $name;
+        list($this->d4, $this->d6, $this->d6, $this->d8, $this->d10,
+            $this->d12, $this->d20, $this->d100) = $dice;
+    }
 }  

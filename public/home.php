@@ -21,14 +21,11 @@ include('./include/navbar.inc.php');
     DiceApp is a free web-based dice roller for tabletop games. It also contains
     functionality for viewing statistics of dice configurations.
   </p>
-  <ul>
-    <li style="list-style-type:none">development notes:</li>
-    <li>Make distribution histogram for statistics page.</li>
-    <li>Make the whole site less fugly.</li>
-    <li>Should have been using CSS flexbox this whole time. Read up on that.</li>
-    <li>Scalable dice graphics. But that might increase load times.</li>
-    <li>Save/import dice configurations and roll history?</li>
-  </ul>
+  <p>
+    DiceApp was created as a personal project by Gabriel Walker while learning
+    the basics of web development. It is written from scratch in HTML/CSS,
+    JavaScript, PHP, and MySQL, without the use of external libraries.
+  </p>
 
 </div>
 </div>
