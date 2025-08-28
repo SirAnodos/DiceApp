@@ -1,4 +1,48 @@
 <?php
+
+Class ProfilesHandler {
+    private $uid;
+    private $connection;
+
+    public function __construct(string $uid) {
+        $this->uname = $uid;
+        include("db-connect.php"); // we should probably do this differently.
+        $this->connection = dbConnect();
+    }
+
+    public function loadProfiles() {
+        //loads all profiles connected to $this->uid
+        //returns JSON with all profiles and their rolls
+    }
+
+    public function saveProfile($name, $profile) {
+        //accepts name of profile and JSON with profile contents
+        //saves 
+        //returns status message
+    }
+
+    public function deleteProfile($name) {
+        //accepts name of profile
+        //selects profile with given name and current uid
+        //deletes profile and all associated rolls
+        //returns status message
+    }
+
+    public function saveRoll($name, $roll, $profileName) {
+        //accepts name of roll, JSON with roll contents, and name of profile
+        //saves roll
+        //returns status message
+    }
+
+    public function deleteRoll($name, $profileName) {
+        //accepts name of roll and name of profile (SHOULD THIS BE ID OF PROFILE?)
+        //selects profile with given names and current uid
+        //deletes roll
+        //returns status message
+    }
+}
+
+
 include("dice-profile.inc.php");
 include("db-connect.php");
 $connection = dbConnect();

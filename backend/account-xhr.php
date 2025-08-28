@@ -1,7 +1,7 @@
 <?php
 // start session, get data from $_POST, connect to database
 session_start();
-$uname = $_POST['uname'] ?? '';
+$uname = $_POST['uname'] ?? ;
 $pwd = $_POST['pwd'] ?? '';
 $action = $_POST['action'] ?? null;
 

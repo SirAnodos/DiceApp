@@ -14,7 +14,7 @@ document.getElementById('acct-dropdn').addEventListener('click', function(event)
 
         // open XHR for account actions
         const XHR = new XMLHttpRequest();
-        XHR.open('POST', '../backend/account.php')
+        XHR.open('POST', '../backend/account-xhr.php')
         XHR.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
         XHR.onload = function() {
@@ -35,7 +35,7 @@ document.getElementById('acct-dropdn').addEventListener('click', function(event)
                     "<span>Username:</span>" +
                     "<input type='text' id='uname-input' autocomplete='off'>" +
                     "<span>Password:</span>" +
-                    "<input type='text' id='pwd-input' autocomplete='off'><br>" +
+                    "<input type='password' id='pwd-input' autocomplete='off'><br>" +
                     "<button id='login-btn'>Login</button>" +
                     "<button id='register-btn'>Register</button><br>" +
                     "<span id='status-msg' class='status-msg'></span>";
