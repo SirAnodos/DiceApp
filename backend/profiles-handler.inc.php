@@ -4,9 +4,8 @@ Class ProfilesHandler {
     private $uid;
     private $connection;
 
-    public function __construct(string $uid) {
-        $this->uname = $uid;
-        include("db-connect.php"); // we should probably do this differently.
+    public function __construct() {
+        include("db-connect.php");
         $this->connection = dbConnect();
     }
 
@@ -15,8 +14,8 @@ Class ProfilesHandler {
         //returns JSON with all profiles and their rolls
     }
 
-    public function saveProfile($name, $profile) {
-        //accepts name of profile and JSON with profile contents
+    public function addProfile($name) {
+        //accepts name of profile
         //saves 
         //returns status message
     }
@@ -28,7 +27,7 @@ Class ProfilesHandler {
         //returns status message
     }
 
-    public function saveRoll($name, $roll, $profileName) {
+    public function addRoll($name, $roll, $profileName) {
         //accepts name of roll, JSON with roll contents, and name of profile
         //saves roll
         //returns status message
@@ -89,5 +88,5 @@ while ($pRow = $pQry->fetch_row()) {
 // overwrite roll - dropdown appears with confirm and cancel
 // delete roll - dropdown appears with confirm and cancel
 // 
-// at some point in this file, save rolls to a cookie.
+// at some point in this file, save rolls to a cookie. //
 ?>

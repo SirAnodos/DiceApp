@@ -9,7 +9,7 @@ Class AccountHandler {
     public function __construct(string $uname = '', string $pwd = '') {
         $this->uname = $uname;
         $this->pwd = $pwd;
-        include("db-connect.php"); // we should probably do this differently.
+        include("db-connect.php");
         $this->connection = dbConnect();
     }
 
@@ -91,10 +91,5 @@ Class AccountHandler {
         $qry->execute();
         session_unset();
         return array(200, "Account deleted.");
-    }
-
-    // do nothing
-    public function nullAction() {
-        return array(200, "");
     }
 }
