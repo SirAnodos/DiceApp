@@ -1,73 +1,84 @@
 <?php
 
-Class ProfilesHandler {
+// object which performs functions on saved dice profiles
+Class ProfilesHandler implements JsonSerializable {
     private $uid;
     private $connection;
+    private $profiles[];
 
     public function __construct() {
         include("db-connect.php");
         $this->connection = dbConnect();
+        $this->profiles = [];
     }
 
+    // save this user's dice profiles in JSON format as a  $_SESSION variable
     public function loadProfiles() {
-        //loads all profiles connected to $this->uid
-        //returns JSON with all profiles and their rolls
+        // DB query: get profiles where uid == $_SESSION[id]
+        $pQry = $connection->prepare("SELECT * FROM profiles WHERE uid = ?");
+        $pQry->bind_param('s', $_SESSION['uid']);
+        $pQry->execute();
+
+        // load data for each profile (for each result row from the above query)
+        while ($pRow = $pQry->fetch_row()) {
+            // save new DiceProfile object
+            array_push($this->profiles, new DiceProfile($pRow[0], $pRow[1]));
+            // DB query: get rolls where profile == id of this profile
+            $rQry = $connection->prepare("SELECT * FROM rolls WHERE profile_id = ?");
+            $rQry->bind_param('s', $pRow[0]);
+            $rQry->execute();
+            // load each roll and add it to this profile (for each result row from the above query)
+            while ($rRow = $rQry->fetch_row()) {
+                end($this->rolls)->addRoll($rRow[0], $rRow[1], array_slice($rRow, 2, 7));
+            }
+        }
+
+        $_SESSION['save-data'] = $this->json_encode();
+
+        http_response_code(200);
+        echo "Saved data retrieved.";
     }
 
     public function addProfile($name) {
         //accepts name of profile
-        //saves 
+        //saves (uses $_SESSION['uid'])
         //returns status message
     }
 
-    public function deleteProfile($name) {
+    public function deleteProfile($id) {
         //accepts name of profile
         //selects profile with given name and current uid
         //deletes profile and all associated rolls
         //returns status message
     }
 
-    public function addRoll($name, $roll, $profileName) {
+    public function addRoll($name, $profileId, $roll) {
         //accepts name of roll, JSON with roll contents, and name of profile
         //saves roll
         //returns status message
     }
 
-    public function deleteRoll($name, $profileName) {
+    public function deleteRoll($id) {
         //accepts name of roll and name of profile (SHOULD THIS BE ID OF PROFILE?)
         //selects profile with given names and current uid
         //deletes roll
         //returns status message
     }
-}
 
+    public function overwriteRoll($id) {
 
-include("dice-profile.inc.php");
-include("db-connect.php");
-$connection = dbConnect();
-
-session_start();
-$profiles = [];
-// DB query: get profiles where uid == $_SESSION[id]
-$pQry = $connection->prepare("SELECT * FROM profiles WHERE uid = ?");
-$pQry->bind_param('s', $_SESSION['uname']);
-$pQry->execute();
-
-// load roll data and create DiceProfile objects
-// for each result row (each profile)
-while ($pRow = $pQry->fetch_row()) {
-    // DB query: get rolls where profile == id of this profile
-    $rQry = $connection->prepare("SELECT * FROM rolls WHERE profile_id = ?");
-    $rQry->bind_param('s', $pRow[0]);
-    $rQry->execute();
-    // save each result row (each saved roll)
-    $rolls = [];
-    while ($rRow = $rQry->fetch_row()) {
-        array_push($rolls, new SavedRoll($rRow[1], array_slice($rRow, 2, 7)))
     }
-    // add to $profiles new profile object, including the loaded rolls
-    array_push($profiles, new DiceProfile($pRow[0], $pRow[1], ...$rolls))
+
+    // serialize the data of each profile in an array
+    public function jsonSerialize() {
+        $data = [];
+        foreach ($this->profiles as $profile) {
+            array_push($data, $profile->getProfileData());
+        }
+        return $data;
+    }
 }
+
 // echo saved dice form:
 // <div>
 //   <select> profile selector, onChange reference change-profile.js

@@ -29,7 +29,7 @@ Class AccountHandler {
             // verify password, echo proper response for success or failure
             if (password_verify($this->pwd, $pwdHash)) {
                 // set session variables if successful
-                $_SESSION['id'] = $id;
+                $_SESSION['uid'] = $id;
                 $_SESSION['uname'] = $this->uname;
                 return array(200, "Login successful.");
             } else {
@@ -73,7 +73,7 @@ Class AccountHandler {
                 $qry->execute();
                 // set session variables
                 $id = $this->connection->insert_id;
-                $_SESSION['id'] = $id;
+                $_SESSION['uid'] = $id;
                 $_SESSION['uname'] = $this->uname;
                 return array(200, "Registration successful.");
             // if username not available, alert the user
@@ -87,7 +87,7 @@ Class AccountHandler {
     public function delete() {
         // db query: delete user by id
         $qry = $this->connection->prepare("DELETE FROM users WHERE id = ?");
-        $qry->bind_param('s', $_SESSION['id']);
+        $qry->bind_param('s', $_SESSION['uid']);
         $qry->execute();
         session_unset();
         return array(200, "Account deleted.");
