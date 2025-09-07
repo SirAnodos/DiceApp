@@ -15,7 +15,7 @@ Class ProfilesHandler implements JsonSerializable {
     // save this user's dice profiles in JSON format as a  $_SESSION variable
     public function loadProfiles() {
         // DB query: get profiles where uid == $_SESSION[id]
-        $pQry = $connection->prepare("SELECT * FROM profiles WHERE uid = ?");
+        $pQry = $this->connection->prepare("SELECT * FROM profiles WHERE uid = ?");
         $pQry->bind_param('s', $_SESSION['uid']);
         $pQry->execute();
 
@@ -24,7 +24,7 @@ Class ProfilesHandler implements JsonSerializable {
             // save new DiceProfile object
             array_push($this->profiles, new DiceProfile($pRow[0], $pRow[1]));
             // DB query: get rolls where profile == id of this profile
-            $rQry = $connection->prepare("SELECT * FROM rolls WHERE profile_id = ?");
+            $rQry = $this->connection->prepare("SELECT * FROM rolls WHERE profile_id = ?");
             $rQry->bind_param('s', $pRow[0]);
             $rQry->execute();
             // load each roll and add it to this profile (for each result row from the above query)
@@ -33,26 +33,49 @@ Class ProfilesHandler implements JsonSerializable {
             }
         }
 
+        // save the loaded data to $_SESSION
         $_SESSION['save-data'] = $this->json_encode();
 
-        http_response_code(200);
-        echo "Saved data retrieved.";
+        // return success message
+        return array(200, 'Save data retrieved.');
     }
 
     public function addProfile($name) {
-        //accepts name of profile
-        //saves (uses $_SESSION['uid'])
-        //returns status message
+        // if name is not provided, return error message.
+        if (is_null($name) || $name == '') {
+            return array(422, 'Profile name required.');
+        // else, create the profile
+        } else {
+            // create DB entry
+            $qry = $this->connection->prepare(("INSERT INTO `profiles` (`id`, `profile_name`, `u_id`) VALUES (NULL, ?, ?)"))
+            $qry->bind_param('ss', $name, $_SESSION['uid']);
+            $qry->execute();
+            // add new profile to $_SESSION
+            $saveData = $_SESSION['save-data'].json_decode();
+            include_once('dice-profile.php');
+            $newProfile = new DiceProfile($this->connection->insert_id, $name);
+            array_push($saveData, $newProfile->getProfileData());
+            $_SESSION['save-data'] = $saveData->json_encode();
+            // return success message
+            return array(200, 'New profile created.');
+        }
     }
 
     public function deleteProfile($id) {
-        //accepts name of profile
-        //selects profile with given name and current uid
-        //deletes profile and all associated rolls
-        //returns status message
+        // delete profile
+        $qry = $this->connection->prepare(("DELETE FROM `profiles` WHERE id = ?"))
+        $qry->bind_param('s', $id);
+        $qry->execute();
+        // delete associated rolls
+        $qry = $this->connection->prepare(("DELETE FROM `rolls` WHERE profile_id = ?"))
+        $qry->bind_param('s', $id);
+        $qry->execute();
+        // return success message
+        return array(200, 'Profile deleted.');
     }
 
     public function addRoll($name, $profileId, $roll) {
+        
         //accepts name of roll, JSON with roll contents, and name of profile
         //saves roll
         //returns status message

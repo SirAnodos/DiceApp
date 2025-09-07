@@ -16,7 +16,7 @@ Class AccountHandler {
     // login to account
     public function login() {
         // db query: get user
-        $qry = $this->connection->prepare("SELECT id, password FROM users WHERE username = ?");
+        $qry = $this->connection->prepare("SELECT id, password FROM `users` WHERE username = ?");
         $qry->bind_param('s', $this->uname);
         $qry->execute();
         $qry->store_result();
@@ -58,7 +58,7 @@ Class AccountHandler {
         // if username and password are valid, try to register account
         } else {
             // db query: get user to check if username is available
-            $qry = $this->connection->prepare("SELECT id FROM users WHERE username = ?");
+            $qry = $this->connection->prepare("SELECT id FROM `users` WHERE username = ?");
             $qry->bind_param('s', $this->uname);
             $qry->execute();
             $qry->store_result();
@@ -72,8 +72,7 @@ Class AccountHandler {
                 $qry->bind_param('ss', $this->uname, $hashedPwd);
                 $qry->execute();
                 // set session variables
-                $id = $this->connection->insert_id;
-                $_SESSION['uid'] = $id;
+                $_SESSION['uid'] = $this->connection->insert_id;
                 $_SESSION['uname'] = $this->uname;
                 return array(200, "Registration successful.");
             // if username not available, alert the user
@@ -86,7 +85,7 @@ Class AccountHandler {
     // delete account
     public function delete() {
         // db query: delete user by id
-        $qry = $this->connection->prepare("DELETE FROM users WHERE id = ?");
+        $qry = $this->connection->prepare("DELETE FROM `users` WHERE id = ?");
         $qry->bind_param('s', $_SESSION['uid']);
         $qry->execute();
         session_unset();
