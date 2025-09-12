@@ -1,43 +1,45 @@
 <?php
 
 // object which performs functions on saved dice profiles
-Class ProfilesHandler implements JsonSerializable {
-    private $uid;
+Class ProfilesHandler {
     private $connection;
     private $profiles[];
 
-    public function __construct() {
-        include("db-connect.php");
+    public function __construct($load='session') {
+        include_once("db-connect.php");
         $this->connection = dbConnect();
-        $this->profiles = [];
+        // load data either already in $_SESSION or fresh from DB
+        if ($load = 'session') {
+            $this->loadFromSession();
+        } else if ($load = 'database') {
+            $this->loadFromDatabase();
+            $_SESSION['save-data'] = $this->saveToJson(); // save the loaded data to $_SESSION
+        }
     }
 
-    // save this user's dice profiles in JSON format as a  $_SESSION variable
-    public function loadProfiles() {
+    // load user data from database
+    public function loadFromDatabase() {
         // DB query: get profiles where uid == $_SESSION[id]
-        $pQry = $this->connection->prepare("SELECT * FROM profiles WHERE uid = ?");
-        $pQry->bind_param('s', $_SESSION['uid']);
-        $pQry->execute();
+        $qry = $this->connection->prepare("SELECT * FROM profiles WHERE uid = ?");
+        $qry->bind_param('s', $_SESSION['uid']);
+        $qry->execute();
 
         // load data for each profile (for each result row from the above query)
-        while ($pRow = $pQry->fetch_row()) {
+        include_once('dice-profile.php');
+        while ($row = $qry->fetch_row()) {
             // save new DiceProfile object
-            array_push($this->profiles, new DiceProfile($pRow[0], $pRow[1]));
-            // DB query: get rolls where profile == id of this profile
-            $rQry = $this->connection->prepare("SELECT * FROM rolls WHERE profile_id = ?");
-            $rQry->bind_param('s', $pRow[0]);
-            $rQry->execute();
-            // load each roll and add it to this profile (for each result row from the above query)
-            while ($rRow = $rQry->fetch_row()) {
-                end($this->rolls)->addRoll($rRow[0], $rRow[1], array_slice($rRow, 2, 7));
-            }
+            array_push($this->profiles, new DiceProfile($row[0], $row[1]));
+            end($this->profiles)->loadFromDatabase();
         }
+    }
 
-        // save the loaded data to $_SESSION
-        $_SESSION['save-data'] = $this->json_encode();
-
-        // return success message
-        return array(200, 'Save data retrieved.');
+    // load user data from $_SESSION
+    public function loadFromSession() {
+        $data = $_SESSION['save-data'];
+        foreach ($data as $profile) {
+            array_push($this->profiles, new DiceProfile($profile['id'], $profile['name']));
+            end($this->profiles)->loadFromArray($profile['rolls']);
+        }
     }
 
     public function addProfile($name) {
@@ -46,6 +48,8 @@ Class ProfilesHandler implements JsonSerializable {
             return array(422, 'Profile name required.');
         // else, create the profile
         } else {
+            // create profile object
+
             // create DB entry
             $qry = $this->connection->prepare(("INSERT INTO `profiles` (`id`, `profile_name`, `u_id`) VALUES (NULL, ?, ?)"))
             $qry->bind_param('ss', $name, $_SESSION['uid']);
@@ -93,7 +97,7 @@ Class ProfilesHandler implements JsonSerializable {
     }
 
     // serialize the data of each profile in an array
-    public function jsonSerialize() {
+    public function saveToJson() {
         $data = [];
         foreach ($this->profiles as $profile) {
             array_push($data, $profile->getProfileData());
