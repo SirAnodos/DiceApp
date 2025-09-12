@@ -1,17 +1,18 @@
 <?php
 
 // object which performs functions on saved dice profiles
+// implements CRUD in an object-oriented manner
 Class ProfilesHandler {
     private $connection;
     private $profiles[];
 
-    public function __construct($load='session') {
+    public function __construct($load = 'session') {
         include_once("db-connect.php");
         $this->connection = dbConnect();
         // load data either already in $_SESSION or fresh from DB
-        if ($load = 'session') {
+        if ($load == 'session') {
             $this->loadFromSession();
-        } else if ($load = 'database') {
+        } else if ($load == 'database') {
             $this->loadFromDatabase();
             $_SESSION['save-data'] = $this->saveToJson(); // save the loaded data to $_SESSION
         }
@@ -28,8 +29,9 @@ Class ProfilesHandler {
         include_once('dice-profile.php');
         while ($row = $qry->fetch_row()) {
             // save new DiceProfile object
-            array_push($this->profiles, new DiceProfile($row[0], $row[1]));
-            end($this->profiles)->loadFromDatabase();
+            array_push($this->profiles, new DiceProfile(
+                $row[0], $row[1], $connection, load: 'database'
+            ));
         }
     }
 
@@ -37,8 +39,9 @@ Class ProfilesHandler {
     public function loadFromSession() {
         $data = $_SESSION['save-data'];
         foreach ($data as $profile) {
-            array_push($this->profiles, new DiceProfile($profile['id'], $profile['name']));
-            end($this->profiles)->loadFromArray($profile['rolls']);
+            array_push($this->profiles, new DiceProfile(
+                $profile['id'], $profile['name'], $connection, data: $profile['rolls']
+            ));
         }
     }
 

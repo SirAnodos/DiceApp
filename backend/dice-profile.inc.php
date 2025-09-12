@@ -9,12 +9,15 @@ class DiceProfile {
 
     // constructor
     // as it is used, this class is constructed empty, and then filled as rolls are loaded from the DB.
-    public function __construct(string $id, string $name) {
-        include_once("db-connect.php");
-        $this->connection = dbConnect();
+    public function __construct(string $id, string $name, object $connection, string $load = 'array', array $data = []) {
+        $this->connection = $connection;
         $this->id = $id;
         $this->name = $name;
-        $this->rolls = [];
+        if ($load == 'array') {
+            $this->loadFromArray($data);
+        } else if ($load == 'database') {
+            $this->loadFromDatabase();
+        }
     }
 
     // load user data from DB
@@ -26,7 +29,9 @@ class DiceProfile {
         // load each roll and add it to this profile (for each result row from the above query)
         include_once('saved-roll.inc.php');
         while ($row = $qry->fetch_row()) {
-            array_push($this->rolls, new SavedRoll($row[0], $row[1], array_slice($row, 2, 7)));
+            array_push($this->rolls, new SavedRoll(
+                $row[0], $row[1], array_slice($row, 2, 7)
+            ));
         }
     }
 
@@ -35,7 +40,7 @@ class DiceProfile {
         foreach ($data as $roll) {
             array_push($this->rolls, new SavedRoll(
                 $roll['id'], $roll['name'], array_values())
-            ))
+            )
         }
     }
 

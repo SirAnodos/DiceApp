@@ -16,8 +16,16 @@ class SavedRoll {
     public function __construct(string $id, string $name, string $dice[]) {
         $this->id = $id;
         $this->name = $name;
-        list($this->d4, $this->d6, $this->d6, $this->d8, $this->d10,
-            $this->d12, $this->d20, $this->d100) = $dice;
+        list(
+            $this->d4,
+            $this->d6,
+            $this->d6,
+            $this->d8,
+            $this->d10,
+            $this->d12,
+            $this->d20,
+            $this->d100)
+        = $dice;
     }
 
     // return roll data

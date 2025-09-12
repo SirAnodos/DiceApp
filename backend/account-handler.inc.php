@@ -9,7 +9,7 @@ Class AccountHandler {
     public function __construct(string $uname = '', string $pwd = '') {
         $this->uname = $uname;
         $this->pwd = $pwd;
-        include("db-connect.php");
+        include("./database/database.php");
         $this->connection = dbConnect();
     }
 
