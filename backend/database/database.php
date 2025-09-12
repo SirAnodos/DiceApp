@@ -26,7 +26,7 @@ class Dal {
                 $ret['count'] = $qry->num_rows;
             }
             if (in_array('rows', $returns)) {
-                $rows = []
+                $rows = [];
                 while ($row = $qry->fetch_row()) {
                     array_push($rows, $row);
                 }
